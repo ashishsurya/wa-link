@@ -1,23 +1,26 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
+import InputContainer from './InputContainer';
 
 const App = () => {
-  const [num, setNum] = useState('');
-  const url = `https://wa.me/+91${num}`;
+  const [data, setData] = useState([]);
+  
+  useEffect(() => {
+    fetch(
+      'https://gist.githubusercontent.com/Goles/3196253/raw/9ca4e7e62ea5ad935bb3580dc0a07d9df033b451/CountryCodes.json'
+    )
+      .then((res) => res.json())
+      .then((result) => {
+        setData(result);
+        console.log(data);
+      });
+  }, [data]);
+
   return (
-    <>
-      {num.length !== 10 ? (
-        <p class="message">Please Enter a valid Phone Number</p>
-      ) : null}
     <div className='app'>
-      
-      <header>Provide a Number and Chat with them on What's App.</header>
-      <input value={num} type='text' onChange={(e) => setNum(e.target.value)} />
-      <a target='blank' href={url}>
-        Click here to Message
-      </a>
-      </div>
-      </>
+    <h1>Chat with anyone through Whats'app</h1>
+      <InputContainer data = {data}/>
+    </div>
   );
 };
 
